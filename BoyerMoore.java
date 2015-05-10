@@ -20,14 +20,13 @@ public class BoyerMoore{
 
 	while (j <= textLength - patternLength){
 	    int i = patternLength - 1;
-	    System.out.println("checking index: " + (i+j));
 	    while (i >= 0 && pattern.charAt(i) == myText.charAt(i+j)){
-		System.out.println("checking index: " + (i + j));
 		i--;
 	    }
 	    if (i < 0){
-		System.out.println("FOUND: " + j);
-		j += goodSuffixes[0];
+		return j;
+		/*System.out.println("FOUND: " + j);
+		j += goodSuffixes[0]; // Can look for all occurances */
 	    } else {
 		int goodSuff = goodSuffixes[i];
 
@@ -55,11 +54,6 @@ public class BoyerMoore{
 	    char letter = pattern.charAt(i);
 	    badCharacters.put(letter, len - i - 1);
 	}
-
-	for (int i = 0; i < len; i++){
-	    char letter = pattern.charAt(i);
-	    System.out.println(letter + " " + badCharacters.get(letter));
-	}
     }
 
     public void generateGoodSuffixes(String pattern){
@@ -83,10 +77,6 @@ public class BoyerMoore{
 
 	for (int i = 0; i < len - 2; i++){
 	    goodSuffixes[len - 1 - suff[i]] = len - i - 1;
-	}
-
-	for (int i = 0; i < goodSuffixes.length; i++){
-	    System.out.println ("SUFFIX: " + goodSuffixes[i]);
 	}
     }
 
