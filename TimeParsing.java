@@ -7,14 +7,23 @@ public class TimeParsing{
     private BoyerMoore bmSearch;
 
     public TimeParsing(){
+	long startTime, endTime;
 	String content = readFile("moby.txt");
         kmpSearch = new KMP(content);
 	bmSearch = new BoyerMoore(content);
-	String pattern = "its cunning spring, and, owing to its great buoyancy, rising with great";
-	System.out.println("testing KMP");
-	System.out.println("Found @: " + kmpSearch.findPattern(pattern));
+	String pattern = "thousands";
+	
 	System.out.println("testing BoyerMoore");
+	startTime = System.currentTimeMillis();
 	System.out.println("Found @: " + bmSearch.findPattern(pattern));
+	endTime = System.currentTimeMillis();
+	System.out.println("That took " + (endTime - startTime) + " milliseconds");
+
+	System.out.println("testing KMP");
+	startTime = System.currentTimeMillis();
+	System.out.println("Found @: " + kmpSearch.findPattern(pattern));
+	endTime = System.currentTimeMillis();
+	System.out.println("That took " + (endTime - startTime) + " milliseconds");	
     }
 
     public String readFile(String filename){
