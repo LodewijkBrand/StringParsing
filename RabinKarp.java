@@ -23,7 +23,7 @@ public class RabinKarp {
         }
     }
     //find a single pattern
-    public void findPattern(String pattern) {
+    public int findPattern(String pattern) {
         //initiate ts
         ts = new String[1];
         //store pattern in ts
@@ -40,6 +40,7 @@ public class RabinKarp {
             }
             i++;
         }
+        return i-1;
     }
 
     public void printResults() {
