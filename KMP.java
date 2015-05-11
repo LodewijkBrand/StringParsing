@@ -4,15 +4,21 @@
  */
 
 public class KMP{
-    private String myText;
-    private int[] kmpTable;
+    private String myText; // The text
+    private int[] kmpTable; // Pre-proccessed shift table
 
+    /**
+     * Creates a KMP object to find a pattern in a given text
+     * @param text The text to be searched through
+     */
     public KMP(String text){
 	myText = text;
     }
 
     /**
      * Finds a pattern in myText using a KMP algorithm
+     * @param pattern The pattern we are looking for
+     * @return The index of the target pattern
      */
     public int findPattern(String pattern){
 	int i = 0; //Index in myText
@@ -27,7 +33,7 @@ public class KMP{
 	    } else { // Letter in pattern and text doesn't match
 		if (kmpTable[l] > -1){
 		    i += l - kmpTable[l];
-		    l = kmpTable[l];
+		    l = kmpTable[l]; // We can skip checking some part of the pattern we already know is correct
 		} else{
 		    i++;
 		    l = 0;
@@ -38,15 +44,18 @@ public class KMP{
     }
     
     /**
-     * Makes the KMP table to search for repeated sub-patterns in pattern
+     * Makes the KMP table in order to skip rechecking idicies we know are not possible
+     * based on sub-patterns in our given pattern
+     * @param pattern The pattern we are looking for
      */
     public void makeTable(String pattern){
 	kmpTable = new int[pattern.length()];
-	kmpTable[0] = -1;
+	kmpTable[0] = -1; // If the first index of the pattern isn't correct we just want to shift over by 1
 	kmpTable[1] = 0;
 	int i = 0;
 	int j = 2;
 	while (j < pattern.length()){
+	    // Recognizing sub-patterns
 	    if (pattern.charAt(i) == pattern.charAt(j-1)){
 		i++;
 		kmpTable[j] = i;

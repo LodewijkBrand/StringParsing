@@ -1,14 +1,29 @@
+/**
+ * A class for the Boyer Moore string matching algorithm
+ * Code adapted from: http://www.stoimen.com/blog/2012/04/17/computer-algorithms-boyer-moore-string-search-and-matching/ (especially the good suffixes part)
+ * @author Lou Brand and Ben Steele
+ */
+
 import java.util.HashMap;
 
 public class BoyerMoore{
-    private String myText;
-    private int[] goodSuffixes;
-    private HashMap<Character, Integer> badCharacters;
+    private String myText; // The text
+    private int[] goodSuffixes; // Pre-processed good suffix table
+    private HashMap<Character, Integer> badCharacters; // Pre-processed bad character table
 
+    /**
+     * Creates a BoyerMoore object to find a pattern in a given text
+     * @param text The text to be searched through
+     */
     public BoyerMoore(String text){
 	myText = text;
     }
 
+    /**
+     * Finds a pattern in myText using a BoyerMoore algorithm
+     * @param pattern The pattern we are looking for
+     * @return The index of the target pattern
+     */
     public int findPattern(String pattern){
 	int textLength = myText.length();
 	int patternLength = pattern.length();
@@ -21,24 +36,22 @@ public class BoyerMoore{
 	while (j <= textLength - patternLength){
 	    int i = patternLength - 1;
 	    while (i >= 0 && pattern.charAt(i) == myText.charAt(i+j)){
-		i--;
+		i--; // Keep checking characters
 	    }
 	    if (i < 0){
-		return j;
-		/*System.out.println("FOUND: " + j);
-		j += goodSuffixes[0]; // Can look for all occurances */
+		return j; // We have checked the whole pattern!
 	    } else {
-		int goodSuff = goodSuffixes[i];
+		int goodSuff = goodSuffixes[i]; // Get appropriate shift from our suffix table
 
 		if (badCharacters.containsKey(myText.charAt(i+j))){
 		    int badChar = badCharacters.get(myText.charAt(i+j)) - patternLength + i + 1;
-		    if (goodSuff > badChar){
-			j+=goodSuff;
+		    if (goodSuff > badChar){ // If good suffix shifts more that bad char
+			j += goodSuff;
 		    } else {
-			j+=badChar;
+			j += badChar;
 		    }
 		} else{
-		    j += goodSuff;
+		    j += goodSuff; // Shift according to suffix table
 		}
 	    }
 	}
@@ -46,16 +59,24 @@ public class BoyerMoore{
 	return -1;
     }
 
+    /**
+     * Populates the bad characters HashMap
+     * @param pattern The pattern we are looking for
+     */
     public void generateBadCharacters(String pattern){
 	badCharacters = new HashMap<Character, Integer>();
 	int len = pattern.length();
 
 	for (int i = 0; i < len - 1; i++){
 	    char letter = pattern.charAt(i);
-	    badCharacters.put(letter, len - i - 1);
+	    badCharacters.put(letter, len - i - 1); // Determine appropriate shift if we see a mismatched letter that is earlier in the pattern (replace mappings as appropriate)
 	}
     }
 
+    /**
+     * Populates the goodSuffixes array for appropriate shifting
+     * @param pattern The pattern we are looking for
+     */
     public void generateGoodSuffixes(String pattern){
 	int len = pattern.length();
 	goodSuffixes = new int[len];
@@ -80,10 +101,15 @@ public class BoyerMoore{
 	}
     }
 
+    /**
+     * Parse our pattern for subpatterns (suffixes)
+     * @param pattern The pattern we are looking for
+     * @return suff Good suffixes table
+     */ 
     public int[] suffixes(String pattern){
 	int len = pattern.length();
 	int[] suff = new int[len];
-	suff[len-1] = len;
+	suff[len-1] = len; // If the last character doesn't match shift all the way over
 	int g = len-1;
 	int f = len-2;
 
@@ -106,6 +132,9 @@ public class BoyerMoore{
 	return suff;
     }
 
+    /**
+     * Main method for testing BoyerMoore
+     */
     public static void main(String[] args){
 	BoyerMoore myBM = new BoyerMoore("this is a simple example");
 	System.out.println("FOUND @: " + myBM.findPattern("example"));

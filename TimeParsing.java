@@ -6,11 +6,11 @@ public class TimeParsing{
     private KMP kmpSearch;
     private BoyerMoore bmSearch;
     private RabinKarp rkSearch;
-    private final int PATTERN_LENGTH = 50;
+    private int PATTERN_LENGTH;
 
     public TimeParsing(){
 	long startTime, endTime;
-	String content = readFile("moby.txt");
+	String content = readFile("ConvertedEColi.txt");
         kmpSearch = new KMP(content);
 	bmSearch = new BoyerMoore(content);
 	rkSearch = new RabinKarp(content);
@@ -18,20 +18,21 @@ public class TimeParsing{
 
 	for (int j = 1; j <= 20; j++){
 	    for (int i = 0; i <= 100; i++){
-		int depth = (int)Math.pow(2, j);
+		PATTERN_LENGTH = 2000 * j;
+		int depth = 250000;
 
 		String pattern = content.substring(depth, depth + PATTERN_LENGTH);
 
 		//System.out.println("PATTERN: " + pattern);
 
-		System.out.print(depth + "\t");
+		System.out.print(PATTERN_LENGTH + "\t");
 
 		//System.out.println("testing RabinKarp");
-		startTime = System.nanoTime();
+		//startTime = System.nanoTime();
 		//System.out.println("Found @: " + rkSearch.findPattern(pattern));
-		rkSearch.findPattern(pattern);
-		endTime = System.nanoTime();
-		System.out.print((endTime - startTime) + "\t");
+		//rkSearch.findPattern(pattern);
+		//endTime = System.nanoTime();
+		//System.out.print((endTime - startTime) + "\t");
 		//System.out.println("That took " + (endTime - startTime) + " milliseconds");
 	
 		//System.out.println("testing BoyerMoore");
