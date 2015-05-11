@@ -37,6 +37,7 @@ public class RabinKarp {
         while(done == false && i < checkable) {
             if (targets.containsKey(text.substring(i,i+size))) {
                 targets.put(text.substring(i,i+size),true);
+                done = true;
             }
             i++;
         }
