@@ -10,7 +10,6 @@ public class RabinKarp {
     String[] ts;
     
     public RabinKarp(String _text) {
-        targets = new HashMap<String, Boolean>();
         text = _text;
     }
     //find multiple patterns at the same time
@@ -28,6 +27,7 @@ public class RabinKarp {
         ts = new String[1];
         //store pattern in ts
         ts[0] = pattern;
+        targets = new HashMap<String, Boolean>();
         //put the pattern string in the hash table so if can be compared
         targets.put(pattern, false);
         int size = pattern.length();
@@ -39,9 +39,11 @@ public class RabinKarp {
                 targets.put(text.substring(i,i+size),true);
                 done = true;
             }
-            i++;
+            else {
+                i++;
+            }
         }
-        return i-1;
+        return i;
     }
 
     public void printResults() {
