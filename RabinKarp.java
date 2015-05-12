@@ -1,3 +1,9 @@
+/**
+ * Class that finds a pattern in a text using the Rabin-Karp algorithm for 
+ * string matching
+ * @author Lou Brand and Ben Steele
+ */
+
 import java.util.*;
 import java.io.File;
 
