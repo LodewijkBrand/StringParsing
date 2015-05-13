@@ -1,3 +1,5 @@
+//Lou Brand and Ben Steele
+
 import java.util.*;
 import java.io.File;
 
@@ -28,7 +30,7 @@ public class RabinKarp {
             if(!sizes.contains(s.length())) {
                 sizes.add(s.length());
             }
-            if(s.length() < size) {
+            if(s.length() < size) { 
                 size = s.length();
                 checkable = text.length() - size;
             }
